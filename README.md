@@ -19,10 +19,14 @@
 
 - _Looking for iOS? Check out_ [cjwirth/RichEditorView](https://github.com/cjwirth/RichEditorView)
 
+### What's New
+- Added Blockquote bar at the beginning
+- Code block is also added
+
+**More designs in development**
+
 Supported Functions
 ---
-
-![Toolbar](./art/demo.gif)
 
 - [x] Bold
 - [x] Italic
@@ -70,14 +74,6 @@ Attribute change of editor
 
 - [ ] Font Family
 
-Demo
----
-
-![Demo](./art/demo2.gif)
-
-How do I use it?
----
-
 ### Setup
 
 ##### Gradle
@@ -87,11 +83,10 @@ repositories {
 }
 
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+  repositories {
+    maven { url 'https://jitpack.io' }
+  }
+}
 
 dependencies {
   implementation 'com.github.rj642:RichEditor:1.0.1'
