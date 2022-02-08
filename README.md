@@ -87,7 +87,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'jp.wasabeef:richeditor-android:2.0.0'
+  implementation 'com.github.rj642:RichEditor:1.0.1'
 }
 ```
 ### Default Setting for Editor
