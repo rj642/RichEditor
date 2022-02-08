@@ -86,6 +86,13 @@ repositories {
   mavenCentral()
 }
 
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
 dependencies {
   implementation 'com.github.rj642:RichEditor:1.0.1'
 }
