@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -59,7 +60,8 @@ public class RichEditor extends WebView {
     JUSTIFYCENTER,
     JUSTIFYFULL,
     JUSTIFYLEFT,
-    JUSTIFYRIGHT
+    JUSTIFYRIGHT,
+    QUOTEBLOCK,
   }
 
   public interface OnTextChangeListener {
@@ -101,7 +103,15 @@ public class RichEditor extends WebView {
     setVerticalScrollBarEnabled(false);
     setHorizontalScrollBarEnabled(false);
     getSettings().setJavaScriptEnabled(true);
-    setWebChromeClient(new WebChromeClient());
+    setWebChromeClient(new WebChromeClient() {
+      @Override
+      public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+        Log.d("MyApplication", consoleMessage.message() + " -- From line "
+                + consoleMessage.lineNumber() + " of "
+                + consoleMessage.sourceId());
+        return super.onConsoleMessage(consoleMessage);
+      }
+    });
     setWebViewClient(createWebviewClient());
     loadUrl(SETUP_HTML);
 
@@ -147,7 +157,7 @@ public class RichEditor extends WebView {
 
   private void applyAttributes(Context context, AttributeSet attrs) {
     final int[] attrsArray = new int[]{
-      android.R.attr.gravity
+            android.R.attr.gravity
     };
     TypedArray ta = context.obtainStyledAttributes(attrs, attrsArray);
 
@@ -209,7 +219,7 @@ public class RichEditor extends WebView {
   public void setPadding(int left, int top, int right, int bottom) {
     super.setPadding(left, top, right, bottom);
     exec("javascript:RE.setPadding('" + left + "px', '" + top + "px', '" + right + "px', '" + bottom
-      + "px');");
+            + "px');");
   }
 
   @Override
@@ -267,14 +277,14 @@ public class RichEditor extends WebView {
 
   public void loadCSS(String cssFile) {
     String jsCSSImport = "(function() {" +
-      "    var head  = document.getElementsByTagName(\"head\")[0];" +
-      "    var link  = document.createElement(\"link\");" +
-      "    link.rel  = \"stylesheet\";" +
-      "    link.type = \"text/css\";" +
-      "    link.href = \"" + cssFile + "\";" +
-      "    link.media = \"all\";" +
-      "    head.appendChild(link);" +
-      "}) ();";
+            "    var head  = document.getElementsByTagName(\"head\")[0];" +
+            "    var link  = document.createElement(\"link\");" +
+            "    link.rel  = \"stylesheet\";" +
+            "    link.type = \"text/css\";" +
+            "    link.href = \"" + cssFile + "\";" +
+            "    link.media = \"all\";" +
+            "    head.appendChild(link);" +
+            "}) ();";
     exec("javascript:" + jsCSSImport + "");
   }
 
